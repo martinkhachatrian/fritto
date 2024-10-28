@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    :root {
+      --primary: #FFD466;       /* Warm Yellow */
+      --secondary: #1A1A1A;     /* Rich Black */
+      --accent: #FFE17B;       /* Light Yellow */
+      --background: #1A1A1A;   /* Dark Background */
+      --text-dark: #1A1A1A;    /* Dark Text */
+      --text-light: #FFFFFF;   /* Light Text */
+      --card-bg: #232323;      /* Card Background */
+    }
+
+    body {
+      background: var(--background);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-light);
+      text-align: center;
+      padding: 20px;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    .background {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: min(140vh, 100vw);
+      height: min(140vh, 100vw);
+      z-index: 0;
+      opacity: 0.05;
+      pointer-events: none;
+    }
+
+    .container {
+      width: min(90%, 1200px);
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+      padding: clamp(1rem, 5vw, 3rem);
+    }
+
+    .logo {
+      font-size: clamp(3rem, 10vw, 5rem);
+      font-weight: 800;
+      color: var(--primary);
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+      margin-bottom: clamp(1rem, 4vw, 2rem);
+      letter-spacing: 4px;
+      position: relative;
+      display: inline-block;
+    }
+
+    .logo::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 60%;
+      height: 4px;
+      background: var(--primary);
+      border-radius: 2px;
+    }
+
+    h1 {
+      font-size: clamp(1.5rem, 5vw, 2.5rem);
+      margin-bottom: clamp(1rem, 4vw, 2rem);
+      color: var(--text-light);
+      font-weight: 300;
+      letter-spacing: 2px;
+    }
+
+    .description {
+      font-size: clamp(1rem, 3vw, 1.2rem);
+      margin-bottom: clamp(2rem, 6vw, 3rem);
+      line-height: 1.6;
+      color: #999;
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .features {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      gap: clamp(1.5rem, 4vw, 2.5rem);
+      margin-bottom: clamp(2rem, 6vw, 3rem);
+      width: 100%;
+      transition: all 0.3s ease;
+    }
+
+    .feature {
+      flex: 1;
+      max-width: 350px;
+      min-width: 250px;
+      background: var(--card-bg);
+      padding: clamp(1.5rem, 4vw, 2rem);
+      border-radius: 15px;
+      border: 1px solid rgba(255, 212, 102, 0.1);
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .feature::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 4px;
+      height: 100%;
+      background: var(--primary);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .feature:hover {
+      transform: translateY(-5px);
+      border-color: var(--primary);
+    }
+
+    .feature:hover::before {
+      opacity: 1;
+    }
+
+    .feature-icon {
+      font-size: clamp(2rem, 6vw, 2.5rem);
+      margin-bottom: 1rem;
+    }
+
+    .feature-title {
+      color: var(--primary);
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      font-size: clamp(1rem, 3vw, 1.2rem);
+    }
+
+    .feature-desc {
+      color: #999;
+      font-size: clamp(0.875rem, 2.5vw, 1rem);
+      line-height: 1.6;
+    }
+
+    .social-links {
+      display: flex;
+      justify-content: center;
+      gap: clamp(1rem, 4vw, 2rem);
+      margin-top: clamp(2rem, 4vw, 3rem);
+      margin-bottom: 0.5rem;
+    }
+
+    .social-link {
+      color: var(--primary);
+      font-size: clamp(1.5rem, 4vw, 1.8rem);
+      opacity: 0.8;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      padding: 0.5rem;
+    }
+
+    .social-link:hover {
+      opacity: 1;
+      transform: translateY(-3px);
+    }
+
+    /* New Email Styles */
+    .contact-info {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-top: 1rem;
+      padding: 1rem;
+      font-size: clamp(0.9rem, 2.5vw, 1rem);
+      color: #999;
+    }
+
+    .email-link {
+      color: var(--primary);
+      text-decoration: none;
+      position: relative;
+      padding-bottom: 2px;
+      transition: all 0.3s ease;
+    }
+
+    .email-link::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 1px;
+      background: var(--primary);
+      transition: width 0.3s ease;
+    }
+
+    .email-link:hover {
+      color: var(--accent);
+    }
+
+    .email-link:hover::after {
+      width: 100%;
+    }
+
+    /* Tablet Breakpoint */
+    @media (max-width: 992px) {
+      .features {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .feature {
+        width: 100%;
+        max-width: 500px;
+      }
+    }
+
+    /* Mobile Breakpoint */
+    @media (max-width: 480px) {
+      .container {
+        padding: 1rem;
+      }
+
+      .feature {
+        max-width: 100%;
+        min-width: unset;
+      }
+
+      .features {
+        gap: 1rem;
+      }
+
+      .contact-info {
+        font-size: 0.9rem;
+        padding: 0.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Modern Fries Package Background -->
+  <svg class="background" viewBox="0 0 400 500" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <linearGradient id="packageGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" style="stop-color:#FFD466"/>
+        <stop offset="100%" style="stop-color:#FFE17B"/>
+      </linearGradient>
+    </defs>
+    
+    <!-- Package -->
+    <path d="M200 50 L350 400 L50 400 Z" fill="none" stroke="url(#packageGradient)" stroke-width="3"/>
+    
+    <!-- Fries -->
+    <g transform="translate(200, 50)">
+      <!-- Center fries -->
+      <rect x="-5" y="0" width="10" height="300" fill="#FFD466" opacity="0.8"/>
+      <rect x="-25" y="20" width="10" height="280" fill="#FFE17B" opacity="0.8"/>
+      <rect x="15" y="20" width="10" height="280" fill="#FFD466" opacity="0.8"/>
+      
+      <!-- Side fries -->
+      <g transform="rotate(-12)">
+        <rect x="-45" y="40" width="10" height="260" fill="#FFE17B" opacity="0.8"/>
+        <rect x="-65" y="60" width="10" height="240" fill="#FFD466" opacity="0.8"/>
+      </g>
+      
+      <g transform="rotate(12)">
+        <rect x="35" y="40" width="10" height="260" fill="#FFD466" opacity="0.8"/>
+        <rect x="55" y="60" width="10" height="240" fill="#FFE17B" opacity="0.8"/>
+      </g>
+    </g>
+    
+    <!-- Bottom design -->
+    <path d="M70 400 L330 400 L310 440 L90 440 Z" fill="url(#packageGradient)" opacity="0.8"/>
+  </svg>
+
+  <div class="container">
+    <div class="logo">FRITTO</div>
+    <h1>Premium Fries Experience</h1>
+    <p class="description">
+      Get ready for a revolutionary fries experience. Hand-cut potatoes, 
+      signature seasonings, and gourmet toppings coming to your neighborhood.
+    </p>
+
+    <div class="features">
+      <div class="feature">
+        <div class="feature-icon">🥔</div>
+        <div class="feature-title">Premium Cut</div>
+        <div class="feature-desc">Hand-selected potatoes, perfectly sized for the ultimate crunch</div>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">🌶️</div>
+        <div class="feature-title">Secret Recipe</div>
+        <div class="feature-desc">Our signature seasoning blend will keep you coming back</div>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">🧀</div>
+        <div class="feature-title">Gourmet Toppings</div>
+        <div class="feature-desc">Unique combinations of premium ingredients</div>
+      </div>
+    </div>
+
+    <div class="social-links">
+      <a href="#" class="social-link" title="Instagram">📸</a>
+      <a href="#" class="social-link" title="Location">📍</a>
+      <a href="#" class="social-link" title="Website">🌐</a>
+    </div>
+
+    <div class="contact-info">
+      <a href="mailto:info@fritto.am" class="email-link">info@fritto.am</a>
+    </div>
+  </div>
+</body>
+</html>
